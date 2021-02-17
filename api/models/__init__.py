@@ -1,3 +1,5 @@
+from django.db import models
+
 from .user import User
 from .reviews import Reviews
 from .comments import Comments
