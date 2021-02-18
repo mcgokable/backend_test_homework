@@ -1,24 +1,7 @@
 from django.db.models import Avg
 from rest_framework import serializers
 
-from .models import titles, genre, category, Titles, Category
-from .models.genre import Genre
-
-
-class GenreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = genre.Genre
-        fields = '__all__'
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = category.Category
-        fields = '__all__'
-        lookup_field = 'slug'
-        # extra_kwargs = {
-        #     'url': {'lookup_field': 'slug'}
-        # }
+from api.models import Titles, Category, Genre
 
 
 class TitlesSerializer(serializers.ModelSerializer):
@@ -30,7 +13,7 @@ class TitlesSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
 
     class Meta:
-        model = titles.Titles
+        model = Titles
         fields = '__all__'
 
     def get_rating(self, obj):
