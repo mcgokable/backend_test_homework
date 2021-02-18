@@ -1,6 +1,7 @@
-from .user import User
-from .reviews import Reviews
 from django.db import models
+
+from .reviews import Reviews
+from .user import User
 
 
 class Comments(models.Model):
