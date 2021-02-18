@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category
+from .models import Category, Reviews
 from .models.genre import Genre
 from .models.titles import Titles
 
@@ -25,4 +25,9 @@ class GenreAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
+    empty_value_display = '--empty--'
+
+@admin.register(Reviews)
+class ReviewsAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'text', 'title')
     empty_value_display = '--empty--'

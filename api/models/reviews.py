@@ -16,3 +16,6 @@ class Reviews(models.Model):
     title = models.ForeignKey(
         Titles, on_delete=models.CASCADE, related_name='reviews'
     )
+
+    def __str__(self):
+        return self.text

@@ -1,6 +1,7 @@
 from django.db import models
 
-from .category import *
+from .category import Category
+from .genre import Genre
 
 
 class Titles(models.Model):
@@ -10,6 +11,10 @@ class Titles(models.Model):
                                  related_name='titles',
                                  verbose_name='Категория',
                                  null=True, blank=True)
+    genre = models.ManyToManyField(Genre, verbose_name='Жанр',
+                                   related_name='titles')
+    description = models.TextField(verbose_name='Описание',
+                                   blank=True, null=True)
 
     class Meta:
         verbose_name = 'Наименование'
