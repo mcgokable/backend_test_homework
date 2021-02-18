@@ -1,5 +1,4 @@
 from .category import Category
-from django.db import models
 
 from .user import User
 from .reviews import Reviews
