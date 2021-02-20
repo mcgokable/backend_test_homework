@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
 
+from ..pagination import CustomPagination
 from ..models import Titles
 from ..permissions import IsAuthorOrReadOnly
 from ..serializers import ReviewSerializer
@@ -9,7 +9,7 @@ from ..serializers import ReviewSerializer
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPagination
     permission_classes = (IsAuthorOrReadOnly,)
 
     def perform_create(self, serializer):
