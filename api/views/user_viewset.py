@@ -1,15 +1,19 @@
-import random
-import string
-from rest_framework.response import Response
-from django.core.mail import send_mail
+
 from api.models import User
-from api.serializers import UserSerializer
-from rest_framework_jwt.settings import api_settings
-from rest_framework import filters, permissions, status, viewsets
-from django.conf import settings
-from rest_framework.decorators import api_view
+from api.serializers import UserSerializer, MyTokenObtainPairSerializer
+from api.permissions import IsAdmin
+
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import permissions, viewsets, status
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+from django.core.mail import EmailMessage
+import random
+import string
 
 
 class UserViewSet(viewsets.ModelViewSet):
