@@ -63,6 +63,9 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
 ROOT_URLCONF = 'api_yamdb.urls'
@@ -138,12 +141,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-}
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -156,4 +153,4 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
 
 DEFAULT_FROM_EMAIL = 'apostolovdm@gmail.com'
 
-# AUTH_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'api.User'
