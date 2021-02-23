@@ -1,7 +1,3 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from . import views
-
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
@@ -9,9 +5,9 @@ from .views import CommentViewSet, ReviewViewSet
 from .views.categories_viewset import CategoriesViewSet
 from .views.genres_viewset import GenresViewSet
 from .views.titles_viewset import TitlesViewSet
-from .views.user_viewset import UserViewSet, MyTokenObtainPairView, MyUserViewSet
+from .views.user_viewset import UserViewSet, MyTokenObtainPairView
 from .views.user_viewset import mail_confirm
-
+from rest_framework_simplejwt.views import TokenRefreshView
 
 router = DefaultRouter()
 
@@ -19,7 +15,6 @@ router.register('categories', CategoriesViewSet, basename='categories')
 router.register('genres', GenresViewSet, basename='genres')
 router.register('titles', TitlesViewSet, basename='titles')
 router.register('users', UserViewSet, basename='users')
-router.register('users/me', MyUserViewSet, basename='users')
 router.register(
     r'titles/(?P<title_id>\d+)/reviews', ReviewViewSet, basename='review'
 )
@@ -29,14 +24,18 @@ router.register(
 
 urlpatterns = [
     path('v1/', include(router.urls)),
+]
+
+urlpatterns += [
+    path('v1/auth/email/', mail_confirm, name='mail_confirm'),
     path(
         'v1/auth/token/',
         MyTokenObtainPairView.as_view(),
         name='token_obtain_pair'
     ),
     path(
-        'v1/token/auth/email/',
-        mail_confirm,
-        name='email_get_confirmation_code'
+        "v1/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh"
     ),
 ]

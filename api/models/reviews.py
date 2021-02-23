@@ -14,7 +14,8 @@ class Reviews(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(10)])
     pub_date = models.DateField('Дата публикации', auto_now_add=True)
     title = models.ForeignKey(
-        Titles, on_delete=models.CASCADE, related_name='reviews'
+        Titles, on_delete=models.CASCADE,
+        related_name='reviews', blank=True
     )
 
     class Meta:
