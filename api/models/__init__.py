@@ -6,4 +6,3 @@ from .comments import Comments
 from .reviews import Reviews
 from .titles import Titles
 from .genre import Genre
-
