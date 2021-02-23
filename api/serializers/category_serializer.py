@@ -8,4 +8,3 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('name', 'slug',)
         lookup_field = 'slug'
-        # read_only_fields = ('name',)

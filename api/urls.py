@@ -1,16 +1,13 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenRefreshView
 
-from . import views
 from .views import CommentViewSet, ReviewViewSet
 from .views.categories_viewset import CategoriesViewSet
 from .views.genres_viewset import GenresViewSet
 from .views.titles_viewset import TitlesViewSet
-
-from .views.user_viewset import UserViewSet, MyTokenObtainPairView
-from .views.user_viewset import mail_confirm
-from rest_framework_simplejwt.views import TokenRefreshView
-
+from .views.user_viewset import (MyTokenObtainPairView, UserViewSet,
+                                 mail_confirm)
 
 router = DefaultRouter()
 

@@ -30,6 +30,7 @@ class TitlesCreateSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field='slug',
                                             queryset=Category.objects.all(),
                                             )
+
     class Meta:
         model = Titles
         fields = '__all__'
