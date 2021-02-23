@@ -3,14 +3,14 @@ from rest_framework import viewsets
 
 from ..pagination import CustomPagination
 from ..models import Titles
-from ..permissions import IsAuthorOrReadOnly
+from ..permissions import IsAuthorOrReadOnly, IsAdmin
 from ..serializers import ReviewSerializer
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     pagination_class = CustomPagination
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly, IsAdmin,)
 
     def perform_create(self, serializer):
         title = get_object_or_404(Titles, pk=self.kwargs.get('title_id'))

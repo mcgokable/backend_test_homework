@@ -14,7 +14,6 @@ from django.core.mail import EmailMessage
 import random
 import string
 
-
 def mail_confirm(request):
     global conf_code
     global email_to

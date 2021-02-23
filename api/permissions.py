@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
@@ -13,15 +13,24 @@ class IsAdmin(BasePermission):
     message = 'Не хватает прав, нужны права Администратора'
 
     def has_permission(self, request, view):
-        if request.user.role in ['admin', ]:
+        if(request.user.role in ['admin', ]):
             return (request.user.is_authenticated
                     and request.user.is_superuser
                     or request.user.role in ['admin', ])
         return request.user.is_authenticated and request.user.is_superuser
 
     def has_object_permission(self, request, view, obj):
-        if request.user.role in ['admin', ]:
+        if(request.user.role in ['admin', ]):
             return (request.user.is_authenticated
                     and request.user.is_superuser
                     or request.user.role in ['admin', ])
         return request.user.is_authenticated and request.user.is_superuser
+
+
+class IsAdminOrReadOnly(BasePermission):
+    message = 'Не хватает прав, нужны права Администратора'
+
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        return request.user.is_superuser

@@ -3,14 +3,14 @@ from rest_framework import viewsets
 from ..pagination import CustomPagination
 
 from ..models import Reviews
-from ..permissions import IsAuthorOrReadOnly
+from ..permissions import IsAuthorOrReadOnly, IsAdmin
 from ..serializers import CommentSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     pagination_class = CustomPagination
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly, IsAdmin,)
 
     def perform_create(self, serializer):
         review = get_object_or_404(Reviews, pk=self.kwargs.get('review_id'))

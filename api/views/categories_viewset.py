@@ -1,10 +1,12 @@
-from rest_framework import viewsets, filters
-from rest_framework.mixins import (CreateModelMixin, ListModelMixin,
-                                   DestroyModelMixin)
-from rest_framework.permissions import AllowAny
+from rest_framework import filters, viewsets
+from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
+                                   ListModelMixin)
+from rest_framework.permissions import (AllowAny, IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.viewsets import GenericViewSet
 
 from api.models import Category
+from api.permissions import IsAdmin
 from api.serializers.category_serializer import CategorySerializer
 
 
@@ -19,10 +21,10 @@ class CreateListDeleteViewSet(CreateModelMixin,
 
 # class CategoriesViewSet(viewsets.ModelViewSet):
 class CategoriesViewSet(CreateListDeleteViewSet):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)# настроить пермишены
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     # Для поиска по полю слаг(что бы можно было удалять и открывать)
     lookup_field = 'slug'
     filter_backends = [filters.SearchFilter]
-    search_fields = ['slug', ]
+    search_fields = ['name', ]
