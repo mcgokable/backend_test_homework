@@ -1,15 +1,14 @@
 from django.db.models import Avg
 from rest_framework import serializers
 
-from api.models import Titles, Category, Genre
+from api.models import Category, Genre, Titles
+from api.serializers import CategorySerializer, GenreSerializer
 
 
 class TitlesSerializer(serializers.ModelSerializer):
-    genre = serializers.SlugRelatedField(many=True,
-                                         queryset=Genre.objects.all(),
-                                         slug_field='slug')
-    category = serializers.SlugRelatedField(slug_field='slug',
-                                            queryset=Category.objects.all())
+    """Сериализатор для вывода тайтлов(выводит name and slug)"""
+    category = CategorySerializer()
+    genre = GenreSerializer(many=True)
     rating = serializers.SerializerMethodField()
 
     class Meta:
@@ -21,3 +20,16 @@ class TitlesSerializer(serializers.ModelSerializer):
         if obj.reviews.count():
             return obj.reviews.aggregate(Avg('score'))
         return None
+
+
+class TitlesCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания тайтла(требуется только slug)"""
+    genre = serializers.SlugRelatedField(many=True,
+                                         queryset=Genre.objects.all(),
+                                         slug_field='slug')
+    category = serializers.SlugRelatedField(slug_field='slug',
+                                            queryset=Category.objects.all(),
+                                            )
+    class Meta:
+        model = Titles
+        fields = '__all__'

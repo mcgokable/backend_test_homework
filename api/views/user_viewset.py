@@ -1,4 +1,3 @@
-
 from api.models import User
 from api.serializers import UserSerializer, MyTokenObtainPairSerializer
 from api.permissions import IsAdmin
@@ -14,7 +13,6 @@ from django.shortcuts import get_object_or_404
 from django.core.mail import EmailMessage
 import random
 import string
-
 
 def mail_confirm(request):
     global conf_code
