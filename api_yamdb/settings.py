@@ -155,4 +155,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
 
 DEFAULT_FROM_EMAIL = 'apostolovdm@gmail.com'
-

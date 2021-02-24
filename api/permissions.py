@@ -35,6 +35,7 @@ class IsAdmin(BasePermission):
 
 
 class IsAdminOrReadOnly(BasePermission):
+    """Сергей сделал под тесты на check_permission"""
     message = 'Не хватает прав, нужны права Администратора'
 
     def has_permission(self, request, view):
