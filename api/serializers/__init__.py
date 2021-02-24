@@ -1,6 +1,6 @@
 from .category_serializer import CategorySerializer
-from .comments import CommentSerializer
+from .comment_serializer import CommentSerializer
 from .genre_serializer import GenreSerializer
-from .reviews import ReviewSerializer
+from .review_serializer import ReviewSerializer
 from .title_serializer import TitlesSerializer
 from .user_serializer import MyTokenObtainPairSerializer, UserSerializer
