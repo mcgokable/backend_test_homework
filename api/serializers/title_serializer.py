@@ -18,8 +18,9 @@ class TitlesSerializer(serializers.ModelSerializer):
     def get_rating(self, obj):
         """Если у объекта есть отзывы - подсчитать средний результат"""
         if obj.reviews.count():
-            return obj.reviews.aggregate(Avg('score'))
-        return None
+            rating = obj.reviews.aggregate(Avg('score'))
+            return rating.get('score__avg')
+        return 0
 
 
 class TitlesCreateSerializer(serializers.ModelSerializer):

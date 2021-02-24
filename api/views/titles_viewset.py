@@ -10,7 +10,6 @@ from api.serializers.title_serializer import (TitlesCreateSerializer,
 
 
 class TitlesViewSet(viewsets.ModelViewSet):
-
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Titles.objects.all()
     serializer_class = TitlesSerializer
