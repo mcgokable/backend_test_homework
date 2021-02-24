@@ -1,20 +1,18 @@
-import random
-import string
+from api.models import User
+from api.serializers import UserSerializer, MyTokenObtainPairSerializer
+from api.permissions import IsAdmin
 
-from django.core.mail import EmailMessage
-from django.shortcuts import get_object_or_404
-from rest_framework import permissions, status, viewsets
-from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from api.models import User
-from api.permissions import IsAdmin
-from api.serializers import MyTokenObtainPairSerializer, UserSerializer
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import permissions, viewsets, status
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
+from django.core.mail import EmailMessage
+import random
+import string
 
 def mail_confirm(request):
     global conf_code
