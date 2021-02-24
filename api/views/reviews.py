@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from ..pagination import CustomPagination
 from ..models import Titles
@@ -11,7 +11,16 @@ from ..serializers import ReviewSerializer
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     pagination_class = CustomPagination
-    permission_classes = [IsModeratorOrAdminOrAuthorOrReadOnly]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [IsAuthenticated]
+
+        elif self.action in ('list', 'retrieve'):
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsModeratorOrAdminOrAuthorOrReadOnly]
+        return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
         title = get_object_or_404(Titles, pk=self.kwargs.get('title_id'))

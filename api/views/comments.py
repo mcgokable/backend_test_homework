@@ -19,9 +19,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         elif self.action in ('list', 'retrieve'):
             permission_classes = [AllowAny]
         else:
-            permission_classes = (
-                [IsModeratorOrAdminOrAuthorOrReadOnly]
-            )
+            permission_classes = [IsModeratorOrAdminOrAuthorOrReadOnly]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
