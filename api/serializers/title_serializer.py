@@ -1,7 +1,6 @@
-from django.db.models import Avg
 from rest_framework import serializers
 
-from api.models import Category, Genre, Titles
+from api.models import Category, Genre, Title
 from api.serializers import CategorySerializer, GenreSerializer
 
 
@@ -12,14 +11,12 @@ class TitlesSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
 
     class Meta:
-        model = Titles
+        model = Title
         fields = '__all__'
 
     def get_rating(self, obj):
-        """Если у объекта есть отзывы - подсчитать средний результат"""
-        if obj.reviews.count():
-            rating = obj.reviews.aggregate(Avg('score'))
-            return rating.get('score__avg')
+        if hasattr(obj, 'rating'):
+            return obj.rating
         return None
 
 
@@ -33,5 +30,5 @@ class TitlesCreateSerializer(serializers.ModelSerializer):
                                             )
 
     class Meta:
-        model = Titles
+        model = Title
         fields = '__all__'

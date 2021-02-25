@@ -1,6 +1,6 @@
 import django_filters
 
-from api.models import Titles
+from api.models import Title
 
 
 class TitlesFilter(django_filters.FilterSet):
@@ -13,5 +13,5 @@ class TitlesFilter(django_filters.FilterSet):
                                      lookup_expr='contains')
 
     class Meta:
-        model = Titles
+        model = Title
         fields = ['year']

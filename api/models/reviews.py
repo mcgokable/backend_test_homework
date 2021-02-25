@@ -1,7 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from .titles import Titles
+from .title import Title
 from .user import User
 
 
@@ -14,7 +14,7 @@ class Reviews(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(10)])
     pub_date = models.DateField('Дата публикации', auto_now_add=True)
     title = models.ForeignKey(
-        Titles, on_delete=models.CASCADE,
+        Title, on_delete=models.CASCADE,
         related_name='reviews', blank=True
     )
 

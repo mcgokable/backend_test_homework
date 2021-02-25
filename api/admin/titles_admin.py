@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from api.models import Titles
+from api.models import Title
 
 
-@admin.register(Titles)
+@admin.register(Title)
 class TitleAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'year', 'category')
     list_display_links = ['pk', 'name']
