@@ -6,8 +6,7 @@ from .views import CommentViewSet, ReviewViewSet
 from .views.categories_viewset import CategoriesViewSet
 from .views.genres_viewset import GenresViewSet
 from .views.titles_viewset import TitlesViewSet
-from .views.user_viewset import (UserViewSet,
-                                 mail_confirm, get_token)
+from .views.user_viewset import UserViewSet, get_token, mail_confirm
 
 router = DefaultRouter()
 
@@ -20,7 +19,8 @@ router.register(
 )
 router.register(
     r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)/comments',
-    CommentViewSet, basename='comment')
+    CommentViewSet, basename='comment'
+)
 
 urlpatterns = [
     path('v1/', include(router.urls)),

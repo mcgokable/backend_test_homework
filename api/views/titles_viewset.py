@@ -12,7 +12,7 @@ from api.serializers.title_serializer import (TitlesCreateSerializer,
 
 class TitlesViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
-    queryset = Title.objects.all().annotate(rating=Avg('review__score'))
+    queryset = Title.objects.all().annotate(rating=Avg('reviews__score'))
     serializer_class = TitlesSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitlesFilter

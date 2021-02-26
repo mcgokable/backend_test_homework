@@ -1,18 +1,19 @@
 import random
-import string
 
-from django.core.mail import EmailMessage
+from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api.models import User
+from api.models import Confirmation, User
 from api.permissions import IsAdmin
 from api.serializers import UserSerializer
+from api_yamdb.settings import DEFAULT_FROM_EMAIL
 
 
 @api_view(['POST'])

@@ -7,6 +7,7 @@ class User(AbstractUser):
         USER = "user"
         MODERATOR = "moderator"
         ADMIN = "admin"
+
     email = models.EmailField('email address', unique=True)
     bio = models.TextField(max_length=300, blank=True, null=True)
     role = models.CharField(
@@ -17,6 +18,10 @@ class User(AbstractUser):
     )
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["role", ]
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
     @property
     def is_admin(self):

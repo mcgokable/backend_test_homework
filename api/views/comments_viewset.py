@@ -3,7 +3,6 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from ..models import Review
-
 from ..pagination import CustomPagination
 from ..permissions import IsModeratorOrAdminOrAuthorOrReadOnly
 from ..serializers import CommentSerializer

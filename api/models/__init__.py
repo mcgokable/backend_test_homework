@@ -3,7 +3,7 @@ from .comments import Comment
 from .genre import Genre
 from .reviews import Review
 from .title import Title
-from .user import User
+from .user import Confirmation, User
 
 # для игнорирования неиспользуемых импортов
 

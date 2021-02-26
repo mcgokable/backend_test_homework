@@ -1,8 +1,8 @@
 from django.db import models
 
+from ..validators import validate_year
 from .category import Category
 from .genre import Genre
-from ..validators import validate_year
 
 
 class Title(models.Model):

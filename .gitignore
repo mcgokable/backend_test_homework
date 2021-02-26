@@ -19,6 +19,4 @@ vscode
 media/
 data/
 
-migrations/
-
 db.sqlite3
