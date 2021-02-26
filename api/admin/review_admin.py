@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ..models import Reviews
+from ..models import Review
 
 
 class ReviewAdmin(admin.ModelAdmin):
@@ -10,4 +10,4 @@ class ReviewAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
 
-admin.site.register(Reviews, ReviewAdmin)
+admin.site.register(Review, ReviewAdmin)

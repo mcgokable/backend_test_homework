@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Reviews
+from ..models import Review
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     )
 
     def validate(self, data):
-        if Reviews.objects.filter(
+        if Review.objects.filter(
                 title=self.context['view'].kwargs.get('title_id'),
                 author=self.context['request'].user
         ).exists() and self.context['request'].method == 'POST':
@@ -21,4 +21,4 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = ('id', 'text', 'score', 'author', 'pub_date',)
-        model = Reviews
+        model = Review

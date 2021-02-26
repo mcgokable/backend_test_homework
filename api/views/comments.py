@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from ..pagination import CustomPagination
 
-from ..models import Reviews
+from ..models import Review
 from ..permissions import IsModeratorOrAdminOrAuthorOrReadOnly
 from ..serializers import CommentSerializer
 
@@ -23,11 +23,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
-        review = get_object_or_404(Reviews, pk=self.kwargs.get('review_id'))
+        review = get_object_or_404(
+            Review, pk=self.kwargs.get('review_id')
+        )
         serializer.save(author=self.request.user, review=review)
 
     def get_queryset(self):
         review = get_object_or_404(
-            Reviews, pk=self.kwargs.get('review_id')
+            Review, pk=self.kwargs.get('review_id')
         )
         return review.comments.all()

@@ -1,15 +1,23 @@
 from django.db import models
 
-from .reviews import Reviews
+from .reviews import Review
 from .user import User
 
 
-class Comments(models.Model):
-    text = models.TextField()
+class Comment(models.Model):
+    text = models.TextField(verbose_name='Текст')
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='comments'
+        User, verbose_name='Автор',
+        on_delete=models.CASCADE, related_name='comments'
     )
-    pub_date = models.DateField('Дата публикации', auto_now_add=True)
+    pub_date = models.DateField(
+        verbose_name='Дата публикации', auto_now_add=True
+    )
     review = models.ForeignKey(
-        Reviews, on_delete=models.CASCADE, related_name='comments'
+        Review, verbose_name='Отзыв',
+        on_delete=models.CASCADE, related_name='comments'
     )
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'

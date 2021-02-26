@@ -5,18 +5,27 @@ from .titles import Titles
 from .user import User
 
 
-class Reviews(models.Model):
-    text = models.TextField()
+class Review(models.Model):
+    text = models.TextField(verbose_name='Текст')
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='reviews'
+        User, verbose_name='Автор',
+        on_delete=models.CASCADE, related_name='reviews'
     )
     score = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)])
-    pub_date = models.DateField('Дата публикации', auto_now_add=True)
-    title = models.ForeignKey(
-        Titles, on_delete=models.CASCADE,
-        related_name='reviews', blank=True
+        verbose_name='Оценка',
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
+    pub_date = models.DateField(
+        verbose_name='Дата публикации', auto_now_add=True
+    )
+    title = models.ForeignKey(
+        Titles, verbose_name='Произведение',
+        on_delete=models.CASCADE, related_name='reviews', blank=True
+    )
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
 
     def __str__(self):
         return self.text
