@@ -3,7 +3,7 @@ from .comments_serializer import CommentSerializer
 from .genre_serializer import GenreSerializer
 from .reviews_serializer import ReviewSerializer
 from .title_serializer import TitlesSerializer
-from .user_serializer import MyTokenObtainPairSerializer, UserSerializer
+from .user_serializer import UserSerializer
 
 # для игнорирования неиспользуемых импортов
 
@@ -13,6 +13,5 @@ __all__ = [
     'GenreSerializer',
     'ReviewSerializer',
     'TitlesSerializer',
-    'MyTokenObtainPairSerializer',
     'UserSerializer',
 ]

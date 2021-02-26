@@ -4,40 +4,63 @@ import string
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.models import User
 from api.permissions import IsAdmin
-from api.serializers import MyTokenObtainPairSerializer, UserSerializer
+from api.serializers import UserSerializer
 
 
+@api_view(['POST'])
 def mail_confirm(request):
-    global conf_code
-    global email_to
-    email_to = request.POST['email']
-    if request.method == "POST":
-        letters = string.ascii_lowercase
-        conf_code = ''.join(random.choice(letters) for i in range(6))
-        email = EmailMessage(
-            'Conformation code',
-            f'Your conformation code for authentification is {conf_code}.',
-            'apostolovdm@gmail.com',
-            email_to
+    email_from = DEFAULT_FROM_EMAIL
+    email_to = request.data.get('email')
+    confirmation_code = make_password(
+        "".join(map(str, random.sample(range(10), 6))),
+        salt=None,
+        hasher="default"
+    )
+
+    try:
+        current_user = Confirmation.objects.get(email=email_to)
+        current_user.confirmation_code = confirmation_code
+        current_user.save()
+    except Confirmation.DoesNotExist:
+        Confirmation.objects.create(
+            email=email_to,
+            confirmation_code=confirmation_code
         )
-        return email.send(fail_silently=False)
+    send_mail(
+        'Confirmation code for your Yamdb profile!',
+        f'Your confirmation code: {confirmation_code}',
+        from_email=email_from,
+        recipient_list=[email_to, ],
+        fail_silently=False,
+    )
+    return Response({'email': email_to}, status=status.HTTP_200_OK)
 
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    def get_serializer_class(self, request):
-        if ('email' in request.data) and ('confirmation_code' in request.data):
-            if request.data['confirmation_code'] == conf_code:
-                return MyTokenObtainPairSerializer
-        return TokenObtainPairSerializer
+@api_view(['POST'])
+def get_token(request):
+    try:
+        request_email = request.data.get('email')
+        request_code = request.data.get('confirmation_code')
+        current_user = Confirmation.objects.get(email=request_email)
+    except Confirmation.DoesNotExist:
+        return Response({'error': 'wrong email'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    if request_code == current_user.confirmation_code:
+        new_user, _ = User.objects.get_or_create(email=request_email)
+        current_user.delete()
+        refresh = RefreshToken.for_user(new_user)
+        return Response({'token': str(refresh.access_token)},
+                        status=status.HTTP_200_OK)
+    return Response({'error': 'wrong code'},
+                    status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -53,6 +76,10 @@ class UserViewSet(viewsets.ModelViewSet):
         permission_classes=[IsAuthenticated]
     )
     def me(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            queryset = User.objects.get(username=request.user.username)
+            serializer = UserSerializer(queryset)
+            return Response(serializer.data)
         self.object = get_object_or_404(User, username=request.user.username)
         serializer = self.get_serializer(
             self.object,
