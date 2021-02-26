@@ -6,8 +6,8 @@ from .views import CommentViewSet, ReviewViewSet
 from .views.categories_viewset import CategoriesViewSet
 from .views.genres_viewset import GenresViewSet
 from .views.titles_viewset import TitlesViewSet
-from .views.user_viewset import (MyTokenObtainPairView, UserViewSet,
-                                 mail_confirm)
+from .views.user_viewset import (UserViewSet,
+                                 mail_confirm, get_token)
 
 router = DefaultRouter()
 
@@ -30,7 +30,7 @@ urlpatterns += [
     path('v1/auth/email/', mail_confirm, name='mail_confirm'),
     path(
         'v1/auth/token/',
-        MyTokenObtainPairView.as_view(),
+        get_token,
         name='token_obtain_pair'
     ),
     path(

@@ -7,7 +7,8 @@ class IsModeratorOrAdminOrAuthorOrReadOnly(permissions.BasePermission):
         if request.user.is_authenticated:
             return (
                 request.user == obj.author
-                or request.user.role in ['admin', 'moderator']
+                or request.user.is_admin
+                or request.user.is_moderator
             )
 
 
@@ -15,17 +16,17 @@ class IsAdmin(BasePermission):
     message = 'Не хватает прав, нужны права Администратора'
 
     def has_permission(self, request, view):
-        if request.user.role in ['admin', ]:
+        if request.user.is_admin:
             return (request.user.is_authenticated
                     and request.user.is_superuser
-                    or request.user.role in ['admin', ])
+                    or request.user.is_admin)
         return request.user.is_authenticated and request.user.is_superuser
 
     def has_object_permission(self, request, view, obj):
-        if request.user.role in ['admin', ]:
+        if request.user.is_admin:
             return (request.user.is_authenticated
                     and request.user.is_superuser
-                    or request.user.role in ['admin', ])
+                    or request.user.is_admin)
         return request.user.is_authenticated and request.user.is_superuser
 
 

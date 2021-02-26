@@ -16,10 +16,9 @@ vscode
 *.sublime-project
 *.sublime-workspace
 
-api/migrations/
 media/
 data/
-migrations/
 
+migrations/
 
 db.sqlite3
