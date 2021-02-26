@@ -10,6 +10,7 @@ from .user import Confirmation, User
 __all__ = [
     'Category',
     'Comment',
+    'Confirmation',
     'Genre',
     'Review',
     'Title',
