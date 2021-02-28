@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'api',
     'django_filters',
     'verify_email',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
